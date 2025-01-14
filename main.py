@@ -1,9 +1,9 @@
 from src.lib import feature_map
 
-num = input ("Número de dimensões: ")
-variaveis = [num]
-variáveis = input ("Números do vetor X: ")
-print ("entrada: ", variáveis)
-num2 = input ("Grau da Expansão: ")
-# print ("resultado: ", feature_map.polynomial_regression (variaveis, num, num2))
+content = input("digite os valores, separando por espaço: ")
+variaveis = list(map(float, content.split()))#python é um brainrot msm nn é possível
+print (variaveis)
+print ("tamanho do vetor: ", len(variaveis))
+num2 = int (input ("Grau da Expansão: "))
+print ("resultado: ", feature_map.polynomial_regression (variaveis, len(variaveis), num2))
 

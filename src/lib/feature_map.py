@@ -6,19 +6,20 @@ from math import comb
 def combination(polynomials, number, combinations, end, start, size_comb, i, n):
     #casos bases da recursão
     if (i == size_comb):
-        combinations[n] = number
-        n += 1 #O N TEMM QUE ESTAR*** FORA DA RECURSÃOOOOOOO!!!
-        print (n)
-        return 
+        combinations[n[0]] = number
+        n[0] += 1 
+        return
 
     if (start > end):
         return
 
-    print (f"polinomio = {polynomials[start]}; number = {number}")
+    save = number 
     number = number * polynomials[start]
 
-    combination(polynomials, number, combinations, end, start, size_comb, i + 1, n)
-    combination(polynomials, number, combinations, end, start + 1, size_comb, i, n)
+    #mover a fila +1;
+    combination(polynomials, number, combinations, end, start, size_comb, i + 1, n) 
+    #mover os números +1;
+    combination(polynomials, save, combinations, end, start + 1, size_comb, i, n)
 
 #para calcular o tamanho do vetor de fmapping;
 def combinations_replacement (n, r):
@@ -38,16 +39,14 @@ def polynomial_regression(polynomials, size_pol, size_comb):
     
     size = combinations_replacement (size_pol, size_comb)
 
-    print (f"tamanho do vetor pra mapping: {size}")
-
     mapping = [0] * (size + 1) 
     mapping[0] = 1
-    n = 1
+    n = [1]
 
     index = 1
     while index <= size_comb:
         number = 1
-        combination (polynomials, number, mapping, size_pol - 1, 0, index, 0, n)#talvez tenha que ajustar 'size_pol'
+        combination (polynomials, number, mapping, size_pol - 1, 0, index, 0, n)
         index += 1
 
     return mapping

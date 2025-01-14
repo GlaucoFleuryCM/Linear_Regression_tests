@@ -27,9 +27,9 @@ def Design_Matrix(input_matrix, phi_degree):
 def Gradient_Weights(labels, phi, variance, weights, lf):
     N = len(phi) #casos teste = n° linhas
     dimensions = len(phi[0]) #dimensões = n° colunas
-    gradient = [0] * dimensions
+    gradient = np.zeros((dimensions))
 
-    medium_losses = [0] * N
+    medium_losses = np.zeros((N))
 
     #calcula 'r', aka medium loss;
     for i in range(N):

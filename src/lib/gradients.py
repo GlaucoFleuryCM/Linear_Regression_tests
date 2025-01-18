@@ -1,21 +1,25 @@
 import numpy as np
 from src.lib.feature_map import Polynomial_Regression as PR
 from src.lib.feature_map import Combinations_Replacement as CR
+from src.lib.feature_map import Length
 
 #NOTA: é possível facilmente melhorar (e muito) a performance do código 
 #usando as bibliotecas do numpy de otimização de matrizes; eu não fiz 
 #isso por querer dar uma revisadinha mesmo, e também pra aprender =)
 
-
 #cria a design matrix, sendo ela nossa nova matriz de treino
 def Design_Matrix(input_matrix, phi_degree):
-    d_y = len(input_matrix)
-    d_x = len(input_matrix[0])
+    d_y = Length(input_matrix) #range of examples
+    d_x = Length(input_matrix[0]) #range of variables
 
     design_matrix = np.zeros((d_y, CR(d_x, phi_degree) + 1))
 
-    for y in range(d_y):
-        design_matrix[y] = PR(input_matrix[y], d_x, phi_degree).copy()
+    print (f"o que estou passando: {input_matrix[0]}")
+    print (f"valor das rows: {d_y}")
+    print (f"valor do skibidi: {d_x}")
+
+    for y in range(d_y): #pra cada exemplo, expande polinomialmente ele
+        design_matrix[y] = PR(input_matrix[y], d_x, phi_degree)#tirei um copy
 
     return design_matrix
 
@@ -24,8 +28,8 @@ def Design_Matrix(input_matrix, phi_degree):
 #rf = rigorosidade da regularização
 #já recebo a variança ao quadrado;
 def Gradient_Weights(labels, phi, variance, weights, rf):
-    N = len(phi) #casos teste = n° linhas
-    dimensions = len(phi[0]) #dimensões = n° colunas
+    N = Length(phi) #casos teste = n° linhas
+    dimensions = Length(phi[0]) #dimensões = n° colunas
     gradient = np.zeros((dimensions))
 
     medium_losses = np.zeros((N))
@@ -54,8 +58,8 @@ def Gradient_Weights(labels, phi, variance, weights, rf):
 
 #gradiente da variança (já vem squared);
 def Gradient_Variance(labels, phi, variance, weights):
-    N = len(phi)
-    dimensions = len(phi[0])
+    N = Length(phi)
+    dimensions = Length(phi[0])
 
     const = N / (2 * variance) #constante da variança
 
@@ -80,13 +84,19 @@ def Gradient_Variance(labels, phi, variance, weights):
 #a vanilla;
 def Gradient_Descent(labels, phi, variance, weights, n0, n1, rf):
     gradient_w = Gradient_Weights(labels, phi, variance, weights, rf)
+    #talvez aqui seja melhor limitar até onde calcula a variança?
+    #ou separar ambos;
     gradient_v = Gradient_Variance(labels, phi, variance, weights)
 
     variance -= (n0 * gradient_v)
 
-    for i in range(len(weights)):
+    for i in range(Length(weights)):
         weights[i] -= (n1 * gradient_w[i]) 
 
-    variance = clamp(variance) #não pode ser negativo ou 0
+    #a variança não pode ficar excessivamente baixa
+    if (variance < 1e-6):
+        variance = 1e-6
 
     return weights, variance
+
+

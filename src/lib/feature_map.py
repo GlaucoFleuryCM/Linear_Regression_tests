@@ -3,6 +3,15 @@ from math import comb
 #efetuar o feature mapping e utilizar polynomial regression pra curve fitting;
 
 #utiizar várias vezes para fazer a expansão polinomial;
+#teria como fazer com árvores? Seria melhor?
+
+def Length (input):
+    try:
+        num = len(input)
+        return num
+    except:
+        return 1
+
 def Combination(polynomials, number, combinations, end, start, size_comb, i, n):
     #casos bases da recursão
     if (i == size_comb):
@@ -13,8 +22,12 @@ def Combination(polynomials, number, combinations, end, start, size_comb, i, n):
     if (start > end):
         return
 
-    save = number 
-    number = number * polynomials[start]
+    save = number
+
+    if (Length(polynomials) == 1):
+        number = number * polynomials
+    else:     
+        number = number * polynomials[start]
 
     #mover a fila +1;
     Combination(polynomials, number, combinations, end, start, size_comb, i + 1, n) 
@@ -33,14 +46,18 @@ def Combinations_Replacement (n, r):
     return result
 
 #assumo que a ordem dos polinômios não importe (não vejo o por que);
+#para uma sequencia [X1 .. XN] de N polinomios, retorna uma lista de 
+#suas combinações;
 def Polynomial_Regression(polynomials, size_pol, size_comb):
-    if (len(polynomials) == 0): 
+    if (Length(polynomials) == 0): 
         return 0
     
     size = Combinations_Replacement (size_pol, size_comb)
 
     mapping = [0] * (size + 1) 
+    
     mapping[0] = 1
+
     n = [1]
 
     index = 1

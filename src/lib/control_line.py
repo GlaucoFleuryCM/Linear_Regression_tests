@@ -3,9 +3,9 @@ import glob
 import os
 
 #objetivo: trazer as especificações da base de dados pro python;
-def Interface1 ():
+def Interface1():
     #buscando e selecionando os .csv necessários;
-    print ("os dados serão buscados na sua pasta de Donwloads")
+    print ("os dados serão buscados na sua pasta de Downloads")
     user = input("Username: ")
     try:
         os.chdir(f'/home/{user}/Downloads') 
@@ -49,7 +49,7 @@ def Interface1 ():
     return(image, dominium, data)
 
 #recebe detalhes da implementação;
-def Interface2 ():
+def Interface2():
     print("Me forneça:")
     reg = int(input("fator de regularização: "))
     lf1 = int(input("learning factor da variança: "))
@@ -57,3 +57,25 @@ def Interface2 ():
     degree = int(input("grau da expansão polinomial: "))
 
     return(reg, lf1, lf2, degree)
+
+def Two_Dimensions(image, dominium, data):
+    indexes = data.columns
+    image_name = indexes[image-1]
+    dominium_name = []
+    image = list(data[image_name])
+    num_dados = len(data)
+
+    dominium_name.append(indexes[int(dominium[0]) - 1])
+    dominium1 = list(data[dominium_name[0]])
+    dominium_name.append(indexes[int(dominium[1]) - 1])
+    dominium2 = list(data[dominium_name[1]])
+    
+def One_Dimension(image, dominium, data):    
+    indexes = data.columns
+    image_name = indexes[image-1]
+    dominium_name = []
+    image = list(data[image_name])
+    num_dados = len(data)
+
+    dominium_name = indexes[dominium[0] - 1]
+    dominium1 = list(data[dominium_name])

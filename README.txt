@@ -1,0 +1,1 @@
+ Objetivo: implementar e discutir a regressão linear bayesiana

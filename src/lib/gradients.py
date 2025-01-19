@@ -14,10 +14,6 @@ def Design_Matrix(input_matrix, phi_degree):
 
     design_matrix = np.zeros((d_y, CR(d_x, phi_degree) + 1))
 
-    print (f"o que estou passando: {input_matrix[0]}")
-    print (f"valor das rows: {d_y}")
-    print (f"valor do skibidi: {d_x}")
-
     for y in range(d_y): #pra cada exemplo, expande polinomialmente ele
         design_matrix[y] = PR(input_matrix[y], d_x, phi_degree)#tirei um copy
 
@@ -30,6 +26,7 @@ def Design_Matrix(input_matrix, phi_degree):
 def Gradient_Weights(labels, phi, variance, weights, rf):
     N = Length(phi) #casos teste = n° linhas
     dimensions = Length(phi[0]) #dimensões = n° colunas
+
     gradient = np.zeros((dimensions))
 
     medium_losses = np.zeros((N))
@@ -81,7 +78,8 @@ def Gradient_Variance(labels, phi, variance, weights):
 
 #como o objetivo não é trabalhar com uma quantidade gigantesca de
 #dados, não é necessário implementar a versão estocástica, bastando
-#a vanilla;
+#a vanilla; agora que parei pra pensar, a fórmula com inversão talvez 
+#fosse melhor aqui pra esse contexto :p
 def Gradient_Descent(labels, phi, variance, weights, n0, n1, rf):
     gradient_w = Gradient_Weights(labels, phi, variance, weights, rf)
     #talvez aqui seja melhor limitar até onde calcula a variança?

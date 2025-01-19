@@ -51,31 +51,9 @@ def Interface1():
 #recebe detalhes da implementação;
 def Interface2():
     print("Me forneça:")
-    reg = int(input("fator de regularização: "))
-    lf1 = int(input("learning factor da variança: "))
-    lf2 = int(input("learning factor dos pesos: "))
-    degree = int(input("grau da expansão polinomial: "))
+    reg = float(input("fator de regularização: "))
+    lf1 = float(input("learning factor da variança: "))
+    lf2 = float(input("learning factor dos pesos: "))
+    degree = float(input("grau da expansão polinomial: "))
 
     return(reg, lf1, lf2, degree)
-
-def Two_Dimensions(image, dominium, data):
-    indexes = data.columns
-    image_name = indexes[image-1]
-    dominium_name = []
-    image = list(data[image_name])
-    num_dados = len(data)
-
-    dominium_name.append(indexes[int(dominium[0]) - 1])
-    dominium1 = list(data[dominium_name[0]])
-    dominium_name.append(indexes[int(dominium[1]) - 1])
-    dominium2 = list(data[dominium_name[1]])
-    
-def One_Dimension(image, dominium, data):    
-    indexes = data.columns
-    image_name = indexes[image-1]
-    dominium_name = []
-    image = list(data[image_name])
-    num_dados = len(data)
-
-    dominium_name = indexes[dominium[0] - 1]
-    dominium1 = list(data[dominium_name])

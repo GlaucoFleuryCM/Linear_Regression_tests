@@ -48,6 +48,7 @@ def Graph_3D(phi_degree, weights, z_points, x_points, y_points, z_name, x_name, 
 #cálculo de f(X) = Y
 def Function_2D(weights, phi_degree, X):
     Z = 0
+    phi_degree = int(phi_degree)
     for i in range(phi_degree):
         Z += weights[i] * X
     
@@ -55,7 +56,7 @@ def Function_2D(weights, phi_degree, X):
 
 
 #gráfico 2D;
-def Graph_2D(phi_degree, weights, points, x_points, y_points, x_name, y_name):
+def Graph_2D(phi_degree, weights, x_points, y_points, x_name, y_name):
 
     X = np.linspace(-100,100, 1000)
 
@@ -63,7 +64,7 @@ def Graph_2D(phi_degree, weights, points, x_points, y_points, x_name, y_name):
 
     #pra que mexer em fig size?
     fig = mlp.figure(figsize = (10,8))
-    ax = fig.add_subplot(111, projection = '2d')
+    ax = fig.add_subplot(111)
 
     ax.plot(X, Y, label='Fitted function', color='blue')
 

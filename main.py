@@ -27,13 +27,18 @@ else:
 weights = np.random.rand(feature_map.Combinations_Replacement(tamanho, degree) + 1)
 variance = np.random.rand(1)
 
+print(weights)
+
 #matriz phi funcionando normalmente
 phi = gradients.Design_Matrix(dominium_f, degree)
 
 #errando e aprendendo 1000 vezes à lá Rock Lee;
-for i in range(100): 
+for i in range(500): 
     weights, variance = gradients.Gradient_Descent(image, phi, variance, weights,
                                                     lf1, lf2, reg)
+    if (i in range(10)):#DEBUGGING
+        print(f" gradientes peso: {gradients.Gradient_Weights(image, phi,variance, weights, reg)} ")
+        print(f" valores: {weights}")
 
 #plotando tudo
 if (tamanho == 2):

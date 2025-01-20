@@ -1,3 +1,4 @@
+import matplotlib as mpl
 import matplotlib.pyplot as mlp #my little ponny kkk;
 from mpl_toolkits import mplot3d #precisa, pro eixo Z
 from src.lib.feature_map import Polynomial_Regression, Combinations_Replacement
@@ -47,12 +48,12 @@ def Graph_3D(phi_degree, weights, z_points, x_points, y_points, z_name, x_name, 
 
 #cálculo de f(X) = Y
 def Function_2D(weights, phi_degree, X):
-    Z = 0
+    Y = 0
     phi_degree = int(phi_degree)
     for i in range(phi_degree):
-        Z += weights[i] * X
+        Y += weights[i] * pow(X, i + 1)
     
-    return Z
+    return Y
 
 
 #gráfico 2D;
@@ -72,6 +73,10 @@ def Graph_2D(phi_degree, weights, x_points, y_points, x_name, y_name):
 
     ax.set_xlabel(x_name)
     ax.set_ylabel(y_name)
+
+    #ajustar pra cada tipo de dado que tu quiser plotar
+    # ax.set_xlim(0, 1000) 
+    # ax.set_ylim(0, 1000)
 
     ax.legend()
     mlp.show()

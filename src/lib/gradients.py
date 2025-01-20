@@ -24,31 +24,29 @@ def Design_Matrix(input_matrix, phi_degree):
 #rf = rigorosidade da regularização
 #já recebo a variança ao quadrado;
 def Gradient_Weights(labels, phi, variance, weights, rf):
-    N = Length(phi) #casos teste = n° linhas
+    N = Length(phi) #número de exemplos = n° linhas
     dimensions = Length(phi[0]) #dimensões = n° colunas
 
     gradient = np.zeros((dimensions))
 
-    medium_losses = np.zeros((N))
-
-    #calcula 'r', aka medium loss;
+    #calculando gradiente da loss;
     for i in range(N):
-        aux = 0
+        #calculando o dot product primeiro; 
+        dot_product = 0
         for j in range(dimensions):
-            aux += weights[j] * phi[i][j]
-        medium_losses[i] = labels[i] - aux
+            dot_product += weights[j] * phi[i][j]
+        #calculando o desvio do valor esperado;
+        error = labels[i] - dot_product
+        #calculando o vetor de desvio a ser somado;
+        for j in range(dimensions):
+            gradient[j] += error * phi[i][j]
 
-    #usa os r's obtidos para calcular cada parcial em relação
-    #a cada peso do vetor 'weights';
-    for positions in range(dimensions):
-        sum = 0
-        for i in range(N):
-            sum += medium_losses[i] * phi[i][positions]
-
-        sum = sum / (variance * variance * N)
-        sum = sum + (weights[positions] * rf)
-
-        gradient[positions] = sum
+    #multiplicando pelo fator com a variança e somando com o
+    #da regularização;
+    factor = -1 / variance
+    for i in range(dimensions):
+        gradient[i] = gradient[i] * factor
+        gradient[i] += 2 * rf * weights[i]
 
     return gradient    
 
@@ -57,8 +55,6 @@ def Gradient_Weights(labels, phi, variance, weights, rf):
 def Gradient_Variance(labels, phi, variance, weights):
     N = Length(phi)
     dimensions = Length(phi[0])
-
-    const = N / (2 * variance) #constante da variança
 
     medium_losses = 0 #aqui é só um número, p/calcular fácil
 
@@ -69,9 +65,9 @@ def Gradient_Variance(labels, phi, variance, weights):
             aux += weights[j] * phi[i][j]
         medium_losses += (labels[i] - aux) * (labels[i] - aux)
 
-    medium_losses = (-1) * medium_losses / (2 * variance * variance * N)
+    medium_losses = (-1) * medium_losses / (2 * variance * variance )
 
-    gradient = medium_losses + const
+    gradient = medium_losses 
 
     return gradient #unidimensional (1 só parâmetro)
 

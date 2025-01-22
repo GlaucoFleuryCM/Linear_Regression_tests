@@ -1,8 +1,10 @@
 # Fdb version 3
-["pdflatex"] 1737489041 "/home/glaucominha/BayesProject/relatorio_teste/texto.tex" "texto.pdf" "texto" 1737489042
+["pdflatex"] 1737582722 "/home/glaucominha/BayesProject/relatorio_teste/texto.tex" "texto.pdf" "texto" 1737582722
   "/etc/texmf/web2c/texmf.cnf" 1736639290 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/glaucominha/BayesProject/relatorio_teste/texto.tex" 1737489041 6278 f7476e165779b3c35cc50cd66ceaad3a ""
+  "/home/glaucominha/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk" 1737556705 11524 fcd5e52935c1dba9c78bfbc405668a08 ""
+  "/home/glaucominha/BayesProject/relatorio_teste/texto.tex" 1737582722 13255 e0510fb669565a28dd898e600acf9584 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
+  "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1136768653 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm" 1246382020 916 f87d7c45f9c908e672703b83b72241a3 ""
@@ -65,9 +67,10 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1644012257 39432 7155514e09a3d69036fac785183a21c2 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1737411998 162899 515de6df2324cca4eba6407bef60e07c ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1737412001 1435797 fc16bfff3dabadbda76e3d6a7206d19a ""
+  "Overfitted_Data.png" 1737491535 14353 89f3b09d9353b06e37c6984687ff84bc ""
   "pool.png" 1737484572 93866 78c7f51e8cc2f370d6d6606b1086ca3b ""
-  "texto.aux" 1737489042 646 368ed2e8dd6ade78de7b35911db8901b "pdflatex"
-  "texto.tex" 1737489041 6278 f7476e165779b3c35cc50cd66ceaad3a ""
+  "texto.aux" 1737582722 1223 cfa001033c2d4bb33eca7b31067b7f93 "pdflatex"
+  "texto.tex" 1737582722 13255 e0510fb669565a28dd898e600acf9584 ""
   (generated)
   "texto.aux"
   "texto.log"

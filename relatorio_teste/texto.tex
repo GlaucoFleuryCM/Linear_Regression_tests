@@ -168,6 +168,194 @@ um feature vector qualquer: $\phi(x): \mathbb{R}^{D} \rightarrow
 
 O feature vector utilizado nesse projeto é conhecido como
 "expansão polinomial": ele expande o vetor $x$ para incluir
+combinações de grau maior de seus componentes. Dessa forma,
+se $x = [x_{1}, x_{2}, ..., x_{n}]^{T}$:
 
+\begin{equation}
+    \phi(x) = [CR(x_{1}, x_{2}, ..., x_{n})]^{T} 
+\end{equation}
+
+CR é uma sigla para combinação com reposição. Por exemplo, para
+$x = [x_{1}, x_{2}]^{T}$ com grau 2 de expansão, e 
+$x' = [x_{1}]$ com grau 5, teremos, respectivamente:
+
+\begin{equation}
+    \phi(x) = [x_{1}, x_{2}, x_{1}^{2}, x_{1}x_{2}, x_{2}^{2}]^{T} 
+\end{equation}
+
+\begin{equation}
+    \phi(x') = [x_{1}, x_{1}^{2}, x_{1}^{3}, x_{1}^{4}, x_{1}^{5}]^{T} 
+\end{equation}
+
+Dessa maneira, é possível realizar justamente o que  figura 
+anterior exibe: criar curvas com curvatura não nula, que se
+adequem melhor à descrição do problema, encontrando agora 
+um vetor de pesos $\theta \in \mathbb{R}^{K}$. 
+
+\subsection{Regularização}
+ 
+O que acontece quando nosso modelo é perfeito para os dados
+que utilizamos? Digamos que, para $K$ pontos de dados que eu
+tenha, eu crie uma função com $K$ dimensões; nesse caso, o modelo
+terá uma dimensão $x_{k}$ para cada ponto $P_{k}$, e acabará
+por passar precisamente por todos estes pontos perfeitamente,
+tornando $L(\theta) = 0$. O problema com isso é a perda de 
+generalidade: o modelo "decorou" o caso utilizado para treiná-lo,
+e, em qualquer outro conjunto de pontos fornecidos que advenham
+da mesma distribuição-fonte desse caso, ele terá uma 
+performance horrível.
+
+\begin{figure}[h!]
+    \includegraphics[width=9cm, height=7cm]{Overfitted_Data.png}
+    \centering
+    \caption{exemplo de overfitting}
+  \end{figure}
+
+Mesmo que haja menos dimensões comparado ao número de pontos,
+o modelo ainda pode generalizar muito mal. A fim de prevenir
+ainda mais isso, introduz-se o bridge-regularization term, 
+somando à loss function um termo que penaliza a adição de 
+parâmetros muito elevados:
+
+\begin{equation} \label{eq:14}
+    L(\theta, \lambda) = -\frac{1}{2\sigma^{2}}
+    ||(Y - X\theta)||^{2} + \lambda
+    ||\theta||_{2}^{2}
+\end{equation}
+
+Onde $\lambda$ é o coeficiente de aprendizado ("Learning Rate"),
+proporcional ao quanto queremos punir nosso modelo por 
+overfitting, e o $2$ embaixo do módulo de $\theta$ simboliza
+a norma euclidiana (é possível utilizar outras também, mas 
+foi essa a que eu usei).
+
+\section{Implementação}
+
+\subsection{Design Matrix}
+
+Essa matriz, em suma,contém os 
+pontos do domínio do dataset após aplicar a polynomial
+expansion. Portanto, suas dimensões são de:
+$K$ por $\frac{(N+R-1)!}{R!(N-1)!}$, sendo $K$ o número de 
+exemplos providenciados, e o número de colunas igual a
+$C(N,R)$ (número de combinações com repetição para $N$
+objetos e $R$ amostragens).
+
+Visualmente, para uma transformação $\phi(x): \mathbb{R}^{D} 
+\rightarrow \mathbb{R}^{K}$, a Design Matrix $\Phi(X)$ será
+dada por:
+
+$$
+\Phi(X) = 
+\begin{bmatrix}
+    1 & \phi(x_{1}^{1}) & \phi(x_{2}^{1}) & ... & \phi(x_{N}^{1}) \\
+    1 & \phi(x_{1}^{2}) & \phi(x_{2}^{2}) & ... & \phi(x_{N}^{2}) \\
+    ... & ... & ... & ... & ... \\
+    1 & \phi(x_{1}^{K}) & \phi(x_{2}^{K}) & ... & \phi(x_{N}^{K}) \\
+\end{bmatrix}
+$$
+
+Onde os primeiros termos serem 1 satisfazem a necessidade de 
+ter o termo independente $\theta_{0}$ de $f(x, \theta)$
+(isso ficará mais claro em gradient descent), e 
+a notação $x_{i}^{j}$ nesse caso indica que $x$ pertence à 
+i-ésima dimensão do j-ésimo vetor de treinamento. Por exemplo,
+para uma matriz com  3 vetores-exemplo de dimensão 2 em que 
+deseja-se expandir polinomialmente até a terceira potência, 
+teríamos:
+
+$$
+X = 
+\begin{bmatrix}
+    x_{1}^{1} & x_{2}^{1} \\
+    x_{1}^{2} & x_{2}^{2} \\
+    x_{1}^{3} & x_{2}^{3} \\
+\end{bmatrix}
+$$
+
+$$
+\Phi(X) = 
+\begin{bmatrix}
+    1 & x_{1}^{1} & x_{2}^{1} & (x_{1}^{1})^{2} & x_{1}^{1}x_{2}^{1} & (x_{2}^{1})^{2} \\
+    1 & x_{1}^{2} & x_{2}^{2} & (x_{1}^{2})^{2} & x_{1}^{2}x_{2}^{2} & (x_{2}^{2})^{2}\\
+    1 & x_{1}^{3} & x_{2}^{3} & (x_{1}^{3})^{2} & x_{1}^{3}x_{2}^{3} & (x_{2}^{3})^{2}\\
+\end{bmatrix}
+$$
+
+A design matrix, no fim das contas, nada mais é além de
+toda a informação necessária para treinar o modelo, já
+que contém todos os vetores de treinamento do dataset, e
+também apresenta-os expandidos ao grau que bem desejarmos.
+
+\subsection{Gradient Descent}
+
+A idéia básica do gradient descent é tentar minimizar a 
+Loss Function descrita na equação \ref{eq:14} via o cálculo
+do vetor gradiente, que aponta para a direção de máxima mudança
+positiva na função (logo, basta invertê-lo para adquirir a 
+direção de máxima mudança negativa). Tudo se resume a um
+algoritmo muito simples:
+
+\begin{enumerate}
+    \item calcular $\nabla L(\theta,\lambda)$
+    \item atualizar $\theta = \theta - \alpha_{1} 
+    \nabla L(\theta,\lambda)$
+    \item repetir o processo para o mesmo $\Phi(X)$
+\end{enumerate}
+
+Sendo que o mesmo vale para o gradiente de $\sigma$. 
+Algumas ressalvas importantes: 
+
+\begin{itemize}
+    \item o gradiente na verdade não 
+    precisa ser necessariamente um vetor; ele pode ser um tensor
+    de qualquer grau, sendo que ele só o é nesse caso graças 
+    ao fato da regressão linear trabalhar com uma função
+    $f:\mathbb{R}^{K} \rightarrow \mathbb{R}$ (generalizando:
+    para $f:\mathbb{R}^{E} \rightarrow \mathbb{R}^{W}$,
+    $\nabla f$ tem dimensões $W \times E$)
+    \item $\alpha_{1}$ é a constante de aprendizado para a 
+    atualização dos pesos; como usarei gradient descent para
+    estimar simultaneamente os valores de $\sigma$ e $\theta$,
+    eles terão constantes igual a $\alpha_{2}$, $\alpha_{1}$,
+    respectivamente. É necessário ajustar $\alpha$ com 
+    cuidado: passos muito largos podem provocar overshooting,
+    e os pequenos, demorarem demais para convergir ao ideal.
+    \item apesar de muito famoso, o gradient descent não é
+    único método iterativo para aproximação de extremos funcionais
+    (quem diria); procure também pelo método de Newton.
+\end{itemize}
+
+Dito isso, como fazemos o computador calcular esse gradiente?
+Primeiro, é necessário calculá-lo manualmente:
+
+\begin{align}
+    L(\theta, \lambda, \sigma) &= -\frac{1}{2\sigma^{2}}
+    ||(Y - X\theta)||^{2} + \lambda
+    ||\theta||_{2}^{2} \\
+    &= -\frac{1}{2\sigma^{2}}[\Sigma_{n=1}^{N}
+    (y_{n} - x_{n}^{T}\theta)^{2}] + \lambda
+    ||\theta||_{2}^{2} 
+\end{align}
+
+\begin{align}
+    \nabla L_{\theta} &= \frac{dL}{d\theta} \\
+    &= -\frac{1}{2\sigma^{2}}[\Sigma_{k=1}^{K}
+    (y_{n} - \theta^{T}\phi(x_{n}))\phi(x_{n})]
+    + 2\lambda \theta \\
+    &= [\frac{\partial L}{\partial \theta_{1}}, 
+    \frac{\partial L}{\partial \theta_{2}}, ...,
+    \frac{\partial L}{\partial \theta_{K}}]
+\end{align}
+
+\begin{align}
+    \nabla L_{\sigma} &= \frac{dL}{d\sigma} \\
+    &= -\frac{1}{2\sigma^{4}}[\Sigma_{k=1}^{K}
+    (y_{n} - \theta^{T}\phi(x_{n}))^{2}]
+\end{align}
+
+Daí em diante, baste seguir o algoritmo já descrito acima
+para $\nabla L_{\theta}$ e $\nabla L_{\sigma}$, iterando até 
+um ponto em que se estime já ser o suficiente.
 
 \end{document}

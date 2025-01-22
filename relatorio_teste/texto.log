@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.1.20)  21 JAN 2025 16:50
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2025.1.20)  22 JAN 2025 18:52
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -186,20 +186,26 @@ File: pool.png Graphic file (type png)
 <use pool.png>
 Package pdftex.def Info: pool.png  used on input line 150.
 (pdftex.def)             Requested size: 256.08131pt x 199.17043pt.
- [3 <./pool.png>] (./texto.aux) ) 
+ [3 <./pool.png>]
+<Overfitted_Data.png, id=29, 301.125pt x 204.765pt>
+File: Overfitted_Data.png Graphic file (type png)
+<use Overfitted_Data.png>
+Package pdftex.def Info: Overfitted_Data.png  used on input line 209.
+(pdftex.def)             Requested size: 256.09988pt x 199.18106pt.
+ [4 <./Overfitted_Data.png>] [5] [6] (./texto.aux) ) 
 Here is how much of TeX's memory you used:
- 3136 strings out of 480171
- 48038 string characters out of 5894489
- 343256 words of memory out of 5000000
- 21076 multiletter control sequences out of 15000+600000
- 476814 words of font info for 58 fonts, out of 8000000 for 9000
+ 3148 strings out of 480171
+ 48253 string characters out of 5894489
+ 344265 words of memory out of 5000000
+ 21086 multiletter control sequences out of 15000+600000
+ 477149 words of font info for 59 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
  55i,15n,62p,270b,234s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on texto.pdf (3 pages, 223239 bytes).
+ </home/glaucominha/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on texto.pdf (6 pages, 251723 bytes).
 PDF statistics:
- 87 PDF objects out of 1000 (max. 8388607)
- 51 compressed objects within 1 object stream
+ 103 PDF objects out of 1000 (max. 8388607)
+ 61 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 11 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,34 +1,22 @@
-from src.lib import gradients as g
-from src.lib import feature_map as fm
+from src.lib import control_line, gradients, plotting, feature_map
+import numpy as np
 
+data = [1, 2, 4, 8, 3]
+data = np.array(data)
 
-data = [1,2,3]
-labels=[1,4,6]
-weights=[1,1]
-lamb = 1
-variance = 1
+labels = [0, 3, 4, 7, 5]
+labels = np.array(labels)
 
-data = g.Design_Matrix(data, 1)
+phi = gradients.Design_Matrix(data, 2)
 
-print(f'tabela de dado: {data}')
+weights = [0.5, 0.5, 0.5]
+weights = np.array(weights)
+variance = 1e-2
 
-print (f'resultado: {g.Gradient_Weights(labels, data, variance, weights, lamb)}')
-
-    # #calcula 'r', aka medium loss;
-    # for i in range(N):
-    #     aux = 0
-    #     for j in range(dimensions):
-    #         aux += weights[j] * phi[i][j]
-    #     medium_losses[i] = labels[i] - aux
-
-    # #usa os r's obtidos para calcular cada parcial em relação
-    # #a cada peso do vetor 'weights';
-    # for positions in range(dimensions):
-    #     sum = 0
-    #     for i in range(N):
-    #         sum += medium_losses[i] * phi[i][positions]
-
-    #     sum = sum / (variance * variance * N)
-    #     sum = sum + (weights[positions] * rf)
-
-    #     gradient[positions] = sum
+for i in range(100):
+    weights, variance = gradients.Gradient_Descent(
+                                    labels, phi, variance,
+                                    weights, 1e-4, 1e-4, 0 
+                                )
+    
+plotting.Graph_2D(4,weights,data,labels,'x','y')    

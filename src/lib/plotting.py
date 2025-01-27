@@ -59,7 +59,7 @@ def Function_2D(weights, phi_degree, X):
 #gráfico 2D;
 def Graph_2D(phi_degree, weights, x_points, y_points, x_name, y_name):
 
-    X = np.linspace(-100,100, 1000)
+    X = np.linspace(-10,10, 50)
 
     Y = Function_2D(weights, phi_degree, X)
 
@@ -75,8 +75,8 @@ def Graph_2D(phi_degree, weights, x_points, y_points, x_name, y_name):
     ax.set_ylabel(y_name)
 
     #ajustar pra cada tipo de dado que tu quiser plotar
-    # ax.set_xlim(0, 1000) 
-    # ax.set_ylim(0, 1000)
+    # ax.set_xlim(0, 20) 
+    # ax.set_ylim(0, 20)
 
     ax.legend()
     mlp.show()

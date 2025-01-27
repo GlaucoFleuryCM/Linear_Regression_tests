@@ -2,10 +2,7 @@ import numpy as np
 from src.lib.feature_map import Polynomial_Regression as PR
 from src.lib.feature_map import Combinations_Replacement as CR
 from src.lib.feature_map import Length
-
-#NOTA: é possível facilmente melhorar (e muito) a performance do código 
-#usando as bibliotecas do numpy de otimização de matrizes; eu não fiz 
-#isso por querer dar uma revisadinha mesmo, e também pra aprender =)
+import pdb
 
 #cria a design matrix, sendo ela nossa nova matriz de treino
 def Design_Matrix(input_matrix, phi_degree):
@@ -26,27 +23,27 @@ def Design_Matrix(input_matrix, phi_degree):
 def Gradient_Weights(labels, phi, variance, weights, rf):
     N = Length(phi) #número de exemplos = n° linhas
     dimensions = Length(phi[0]) #dimensões = n° colunas
-
+    pdb.set_trace()
     gradient = np.zeros((dimensions))
 
     #calculando gradiente da loss;
     for i in range(N):
         #calculando o dot product primeiro; 
-        dot_product = 0
-        for j in range(dimensions):
-            dot_product += weights[j] * phi[i][j]
+        dot_product = np.dot(weights, phi[i])
         #calculando o desvio do valor esperado;
         error = labels[i] - dot_product
         #calculando o vetor de desvio a ser somado;
-        for j in range(dimensions):
-            gradient[j] += error * phi[i][j]
+        tmp = error * phi[i]
+        gradient += tmp
 
     #multiplicando pelo fator com a variança e somando com o
     #da regularização;
-    factor = -1 / variance
-    for i in range(dimensions):
-        gradient[i] = gradient[i] * factor
-        gradient[i] += 2 * rf * weights[i]
+
+    # factor = -1 / variance
+    # gradient = gradient * factor
+    gradient = -(2/N) * gradient #MUDEI AQUI DE 'DIMENSIONS' PARA 'N'
+
+    gradient = gradient + (2 * rf * weights)
 
     return gradient    
 
@@ -56,18 +53,19 @@ def Gradient_Variance(labels, phi, variance, weights):
     N = Length(phi)
     dimensions = Length(phi[0])
 
-    medium_losses = 0 #aqui é só um número, p/calcular fácil
+    gradient = 0 #aqui é só um número, p/calcular fácil
 
     #calcula soma de r^2;
     for i in range(N):
-        aux = 0
-        for j in range(dimensions):
-            aux += weights[j] * phi[i][j]
-        medium_losses += (labels[i] - aux) * (labels[i] - aux)
+        dot_product = np.dot(weights, phi[i])
+        error = labels[i] - dot_product
+        #botando o erro ao quadrado 
+        error = error * error
+        #somando à variável de armazenamento
+        gradient += error
 
-    medium_losses = (-1) * medium_losses / (2 * variance * variance )
-
-    gradient = medium_losses 
+    #multiplicando pelo escalar com a variânça
+    
 
     return gradient #unidimensional (1 só parâmetro)
 

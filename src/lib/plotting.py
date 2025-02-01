@@ -3,6 +3,7 @@ import matplotlib.pyplot as mlp #my little ponny kkk;
 from mpl_toolkits import mplot3d #precisa, pro eixo Z
 from src.lib.feature_map import Polynomial_Regression, Combinations_Replacement
 import numpy as np
+import pdb
 
 #pra gráficos 3D, calcula o valor de f(x,y), considerando se tratar de
 #uma expansão polinomial;
@@ -50,8 +51,8 @@ def Graph_3D(phi_degree, weights, z_points, x_points, y_points, z_name, x_name, 
 def Function_2D(weights, phi_degree, X):
     Y = 0
     phi_degree = int(phi_degree)
-    for i in range(phi_degree):
-        Y += weights[i] * pow(X, i + 1)
+    for i in range(phi_degree + 1):
+        Y += weights[i] * pow(X, i)
     
     return Y
 
@@ -59,7 +60,7 @@ def Function_2D(weights, phi_degree, X):
 #gráfico 2D;
 def Graph_2D(phi_degree, weights, x_points, y_points, x_name, y_name):
 
-    X = np.linspace(-10,10, 50)
+    X = np.linspace(0,1000, 500)
 
     Y = Function_2D(weights, phi_degree, X)
 
@@ -80,5 +81,23 @@ def Graph_2D(phi_degree, weights, x_points, y_points, x_name, y_name):
 
     ax.legend()
     mlp.show()
+
+def Graph_Loss(losses, trials):
+    X = np.linspace(0, trials - 1, trials)
+
+    fig = mlp.figure(figsize = (10,8))
+    ax = fig.add_subplot(111)
+
+    ax.plot(X, losses, label = 'Queda da loss', color = 'red')
+
+    ax.set_xlabel('tentativas')
+    ax.set_ylabel('valor da loss')
+
+    ax.legend()
+    mlp.show()    
+
+
+
+
     
 

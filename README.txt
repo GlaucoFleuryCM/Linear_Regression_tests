@@ -50,7 +50,7 @@ Parâmetros requisitados
  para achar os parâmetros que melhor se adequam ao
  contexto.
 
-Teoria e Matemática
------------------------
+Teoria e Matemática da Implementação
+--------------------------------------
  Discutidos no pdf presente em 'relatorio_teste'
 

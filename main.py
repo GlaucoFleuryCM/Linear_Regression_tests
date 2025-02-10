@@ -2,10 +2,10 @@ from src.lib import control_line, gradients, plotting, feature_map
 import numpy as np
 import time 
 import pdb
+
 #recebendo especificações da manipulação;
-t1 = time.time()
 image, dominium, data = control_line.Interface1()
-reg, lf1, lf2, degree = control_line.Interface2()
+reg, lf, degree, trials = control_line.Interface2()
 
 #ajustando dados para serem utilizados pelo computador
 #(transformando tudo em número e lista)
@@ -25,23 +25,15 @@ else:
     dominium_name = indexes[dominium[0] - 1]
     dominium_f = np.array(data[dominium_name])
 
-#inicializando variáveis
-weights = np.random.rand(feature_map.Combinations_Replacement(tamanho, degree) + 1)
-variance = np.random.rand(1)
-
+#inicializando a design matrix;
 phi = gradients.Design_Matrix(dominium_f, degree)
-t2 = time.time()
+#calculando tamanho do vetor de pesos;
+w_size = feature_map.Combinations_Replacement(tamanho, degree) + 1
 
-#treinando + guardando as losses
-trials = 100
-losses = np.zeros((trials))
-for i in range(trials): 
-    weights, variance, loss = gradients.Gradient_Descent(image, phi, variance, weights,
-                                                    lf1, lf2, reg)
-    losses[i] = loss
-t3 = time.time()
+#treinando o modelo;
+weights, losses, trials = gradients.Gradient_Descent(image, phi, lf, reg, trials, w_size)
 
-#plotando tudo
+#plotando tudo  
 if (tamanho == 2):
     plotting.Graph_3D(degree, weights, image[0:30], dominium1[0:30], dominium2[0:30],
                        image_name, dominium_name[0], dominium_name[1])
@@ -50,10 +42,7 @@ else:
     plotting.Graph_2D(degree, weights, dominium_f[0:30],
                        image[0:30], dominium_name, image_name)
     plotting.Graph_Loss(losses, trials)   
-t4 = time.time()
 
-print(f'tempo de treino: {t3 - t2}')
-print(f'tempo pra plottar a parada: {t4 - t3}')
 
 
 

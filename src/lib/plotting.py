@@ -51,6 +51,7 @@ def Graph_3D(phi_degree, weights, z_points, x_points, y_points, z_name, x_name, 
 def Function_2D(weights, phi_degree, X):
     Y = 0
     phi_degree = int(phi_degree)
+    
     for i in range(phi_degree + 1):
         Y += weights[i] * pow(X, i)
     
@@ -60,7 +61,7 @@ def Function_2D(weights, phi_degree, X):
 #gráfico 2D;
 def Graph_2D(phi_degree, weights, x_points, y_points, x_name, y_name):
 
-    X = np.linspace(0,1000, 500)
+    X = np.linspace(0,1,100)
 
     Y = Function_2D(weights, phi_degree, X)
 
@@ -76,12 +77,14 @@ def Graph_2D(phi_degree, weights, x_points, y_points, x_name, y_name):
     ax.set_ylabel(y_name)
 
     #ajustar pra cada tipo de dado que tu quiser plotar
-    # ax.set_xlim(0, 20) 
-    # ax.set_ylim(0, 20)
+    ax.set_xlim(0, 10) 
+    ax.set_ylim(0, 10)
 
     ax.legend()
     mlp.show()
 
+
+#gráfico da função Loss; muito útil!
 def Graph_Loss(losses, trials):
     X = np.linspace(0, trials - 1, trials)
 

@@ -42,7 +42,7 @@ if (flag == False):
 #do programa que eu estou importanto mesmo;
 chdir(f'/home/{user}/BayesProject')
 inputs = [str(user), '1', '1', '3',
-           '6', '0', '0.000001', '0.000001', '1']
+           '6', '0', '0.000001', '1', '100']
 #'fingindo' que é um comando que eu dei no terminal;
 inputs = "\n".join(inputs) + "\n"
 subprocess.run(

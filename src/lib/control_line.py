@@ -52,8 +52,8 @@ def Interface1():
 def Interface2():
     print("Me forneça:")
     reg = float(input("fator de regularização: "))
-    lf1 = float(input("learning factor da variança: "))
-    lf2 = float(input("learning factor dos pesos: "))
+    lf = float(input("learning factor dos pesos: "))
     degree = float(input("grau da expansão polinomial: "))
+    trials = int(input("n° de vezes que você quer treinar o modelo: "))
 
-    return(reg, lf1, lf2, degree)
+    return(reg, lf, degree, trials)

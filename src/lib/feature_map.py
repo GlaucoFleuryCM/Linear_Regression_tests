@@ -5,12 +5,14 @@ from math import comb
 #utiizar várias vezes para fazer a expansão polinomial;
 #teria como fazer com árvores? Seria melhor?
 
+#essa função serve para contornar as chatices do numpy;
 def Length (input):
     try:
         num = len(input)
         return num
     except:
         return 1
+    
 
 def Combination(polynomials, number, combinations, end, start, size_comb, i, n):
     #casos bases da recursão
@@ -34,6 +36,7 @@ def Combination(polynomials, number, combinations, end, start, size_comb, i, n):
     #mover os números +1;
     Combination(polynomials, save, combinations, end, start + 1, size_comb, i, n)
 
+
 #para calcular o tamanho do vetor de fmapping;
 def Combinations_Replacement (n, r):
     i = 1
@@ -44,6 +47,7 @@ def Combinations_Replacement (n, r):
         i += 1
 
     return result
+
 
 #assumo que a ordem dos polinômios não importe (não vejo o por que);
 #para uma sequencia [X1 .. XN] de N polinomios, retorna uma lista de 

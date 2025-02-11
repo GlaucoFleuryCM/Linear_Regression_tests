@@ -206,9 +206,10 @@ da mesma distribuição-fonte desse caso, ele terá uma
 performance horrível.
 
 \begin{figure}[h!]
-    \includegraphics[width=9cm, height=7cm]{Overfitted_Data.png}
+    \includegraphics[width=9cm, height=7cm]{overfit.png}
     \centering
-    \caption{exemplo de overfitting}
+    \caption{exemplo de overfitting; $10^{6}$ epochs, e 
+    learning factor = $0.1$}
   \end{figure}
 
 Mesmo que haja menos dimensões comparado ao número de pontos,
@@ -228,6 +229,13 @@ proporcional ao quanto queremos punir nosso modelo por
 overfitting, e o $2$ embaixo do módulo de $\theta$ simboliza
 a norma euclidiana (é possível utilizar outras também, mas 
 foi essa a que eu usei).
+
+\begin{figure}[h!]
+    \includegraphics[width=9cm, height=7cm]{fit.png}
+    \centering
+    \caption{correção do overfitting anterior; mesmos settings,
+    porém com regularization factor = $0.2$}
+  \end{figure}
 
 \section{Implementação}
 
@@ -298,12 +306,11 @@ algoritmo muito simples:
 
 \begin{enumerate}
     \item calcular $\nabla L(\theta,\lambda)$
-    \item atualizar $\theta = \theta - \alpha_{1} 
+    \item atualizar $\theta = \theta - \alpha
     \nabla L(\theta,\lambda)$
     \item repetir o processo para o mesmo $\Phi(X)$
 \end{enumerate}
 
-Sendo que o mesmo vale para o gradiente de $\sigma$. 
 Algumas ressalvas importantes: 
 
 \begin{itemize}
@@ -314,11 +321,8 @@ Algumas ressalvas importantes:
     $f:\mathbb{R}^{K} \rightarrow \mathbb{R}$ (generalizando:
     para $f:\mathbb{R}^{E} \rightarrow \mathbb{R}^{W}$,
     $\nabla f$ tem dimensões $W \times E$)
-    \item $\alpha_{1}$ é a constante de aprendizado para a 
-    atualização dos pesos; como usarei gradient descent para
-    estimar simultaneamente os valores de $\sigma$ e $\theta$,
-    eles terão constantes igual a $\alpha_{2}$, $\alpha_{1}$,
-    respectivamente. É necessário ajustar $\alpha$ com 
+    \item $\alpha$ é a constante de aprendizado para a 
+    atualização dos pesos. É necessário ajustar $\alpha$ com 
     cuidado: passos muito largos podem provocar overshooting,
     e os pequenos, demorarem demais para convergir ao ideal.
     \item apesar de muito famoso, o gradient descent não é
@@ -326,21 +330,25 @@ Algumas ressalvas importantes:
     (quem diria); procure também pelo método de Newton.
 \end{itemize}
 
-Dito isso, como fazemos o computador calcular esse gradiente?
-Primeiro, é necessário calculá-lo manualmente:
+É possível matematicamente provar que minimizar a função Loss já
+descrita é equivalente a minimizar a clássica 'Mean Squared Error'.
+Portanto, a fim de evitar ter de calcular $\sigma$, minimizaremos:
 
 \begin{align}
-    L(\theta, \lambda, \sigma) &= -\frac{1}{2\sigma^{2}}
+    L(\theta, \lambda) &= \frac{1}{N}
     ||(Y - X\theta)||^{2} + \lambda
     ||\theta||_{2}^{2} \\
-    &= -\frac{1}{2\sigma^{2}}[\Sigma_{n=1}^{N}
+    &= \frac{1}{N}[\Sigma_{n=1}^{N}
     (y_{n} - x_{n}^{T}\theta)^{2}] + \lambda
     ||\theta||_{2}^{2} 
 \end{align}
 
+Dito isso, como fazemos o computador calcular esse gradiente?
+Primeiro, é necessário calculá-lo manualmente:
+
 \begin{align}
     \nabla L_{\theta} &= \frac{dL}{d\theta} \\
-    &= -\frac{1}{2\sigma^{2}}[\Sigma_{k=1}^{K}
+    &= \frac{2}{N}[\Sigma_{k=1}^{K}
     (y_{n} - \theta^{T}\phi(x_{n}))\phi(x_{n})]
     + 2\lambda \theta \\
     &= [\frac{\partial L}{\partial \theta_{1}}, 
@@ -348,14 +356,46 @@ Primeiro, é necessário calculá-lo manualmente:
     \frac{\partial L}{\partial \theta_{K}}]
 \end{align}
 
-\begin{align}
-    \nabla L_{\sigma} &= \frac{dL}{d\sigma} \\
-    &= -\frac{1}{2\sigma^{4}}[\Sigma_{k=1}^{K}
-    (y_{n} - \theta^{T}\phi(x_{n}))^{2}]
-\end{align}
-
 Daí em diante, baste seguir o algoritmo já descrito acima
-para $\nabla L_{\theta}$ e $\nabla L_{\sigma}$, iterando até 
+para $\nabla L_{\theta}$, iterando até 
 um ponto em que se estime já ser o suficiente.
+
+\subsection{Complicações}
+
+Como nem tudo são flores, durante o desenvolvimento desse projetinho,
+passei por alguns apertos e indecisões (basta ver a evolução dos
+meus commits). Abordarei aqui alguns problemas encontrados, que não
+soube como solucionar:
+
+\begin{itemize}
+    \item \textbf{data range}: quanto maior a escala dos dados utilizados,
+    menor tem que ser o $\alpha$ para evitar overflows numéricos, a
+    um ponto em que a limitação do hardware para floating point 
+    arithmetic impede o código de funcionar. Para solucionar isso,
+    tentei usar data standardization e/ou normalization. Nenhum dos
+    dois métodos funcionou, lamentavelmente, sendo isso um skill issue
+    da minha parte.
+    \item \textbf{questão do $\sigma$}: facilitar processamento,
+    confesso, não foi a única razão pela qual optei por não 
+    utilizar a Loss Function original. O livro que usei como base 
+    (Mathematics for Machine Learning) apresentava a seguinte fórmula
+    analítica para encontrar $\sigma$:
+    \begin{equation}
+        \sigma^{2} = \frac{1}{K}\Sigma_{k=1}^{K}
+        (y_{n} - \theta^{T}\phi(x_{n}))^{2}
+    \end{equation}
+    porém, pelo que eu compreendi, a Loss Function seria:
+    \begin{equation}
+        L(\theta,\lambda,\sigma) = -\frac{1}{2\sigma^{2}}
+        \Sigma_{k=1}^{K}
+        (y_{n} - \theta^{T}\phi(x_{n}))^{2}
+    \end{equation}
+    Substituindo, teríamos:
+    \begin{equation}
+        L(\theta,\lambda,\sigma) = -\frac{K}{2}
+    \end{equation}
+    O que não faz o menor sentido. Se eu não entendo algo, eu não
+    implemento.
+\end{itemize}
 
 \end{document}

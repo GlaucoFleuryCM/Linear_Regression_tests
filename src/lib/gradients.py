@@ -1,13 +1,19 @@
 import numpy as np
 from src.lib.feature_map import Polynomial_Regression as PR
 from src.lib.feature_map import Combinations_Replacement as CR
-from src.lib.feature_map import Length
-import pdb
+from src.lib.feature_map import Length, Min, Max
 
-def Data_Standardization(phi):
-    phi[:, 1:] = (phi[:, 1:] - np.mean(phi[:, 1:], axis = 0)) / np.std(phi[:, 1:], axis = 0)
+def Data_Norm(data):
+    max = Max(data)
+    min = Min(data)
 
-    return phi
+    data = (data - min) / (max - min)
+
+    return data
+
+def Data_Std(data):
+    data[:, 1:] = (data[:, 1:] - np.mean(data[:, 1:], axis = 0)) / np.std(data[:, 1:], axis = 0)
+    return data
 
 #cria a design matrix, sendo ela nossa nova matriz de treino
 def Design_Matrix(input_matrix, phi_degree):
@@ -18,8 +24,6 @@ def Design_Matrix(input_matrix, phi_degree):
 
     for y in range(d_y): #pra cada exemplo, expande polinomialmente ele
         design_matrix[y] = PR(input_matrix[y], d_x, phi_degree)
-
-    design_matrix = Data_Standardization(design_matrix)    
 
     return design_matrix
 
@@ -41,7 +45,6 @@ def Loss(labels, phi, weights):
 
 #calcula o vetor gradiente dos pesos;
 #rf = rigorosidade da regularização
-#já recebo a variança ao quadrado;
 def Gradient_Weights(labels, phi, weights, rf):
     N = Length(phi) #número de pontos = n° linhas
     dimensions = Length(phi[0]) #dimensões = n° colunas
@@ -55,7 +58,7 @@ def Gradient_Weights(labels, phi, weights, rf):
         tmp = error * phi[i]
         gradient += tmp
 
-    gradient = 2 * gradient 
+    gradient = 2 * gradient / N
 
     #regularização
     gradient[1:] = gradient[1:] + 2 * rf * weights[1:]

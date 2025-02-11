@@ -3,7 +3,6 @@ import matplotlib.pyplot as mlp #my little ponny kkk;
 from mpl_toolkits import mplot3d #precisa, pro eixo Z
 from src.lib.feature_map import Polynomial_Regression, Combinations_Replacement, Max, Min
 import numpy as np
-import pdb
 
 #pra gráficos 3D, calcula o valor de f(x,y), considerando se tratar de
 #uma expansão polinomial;
@@ -75,7 +74,6 @@ def Graph_2D(phi_degree, weights, x_points, y_points, x_name, y_name):
     
     Y = Function_2D(weights, phi_degree, X)
 
-    #pra que mexer em fig size?
     fig = mlp.figure(figsize = (10,8))
     ax = fig.add_subplot(111)
 

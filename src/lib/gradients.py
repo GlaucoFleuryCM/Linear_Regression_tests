@@ -4,6 +4,10 @@ from src.lib.feature_map import Combinations_Replacement as CR
 from src.lib.feature_map import Length
 import pdb
 
+def Data_Standardization(phi):
+    phi[:, 1:] = (phi[:, 1:] - np.mean(phi[:, 1:], axis = 0)) / np.std(phi[:, 1:], axis = 0)
+
+    return phi
 
 #cria a design matrix, sendo ela nossa nova matriz de treino
 def Design_Matrix(input_matrix, phi_degree):
@@ -15,8 +19,9 @@ def Design_Matrix(input_matrix, phi_degree):
     for y in range(d_y): #pra cada exemplo, expande polinomialmente ele
         design_matrix[y] = PR(input_matrix[y], d_x, phi_degree)
 
-    return design_matrix
+    design_matrix = Data_Standardization(design_matrix)    
 
+    return design_matrix
 
 #calcula a loss pra poder mostrar quanto mais ou menos que tá baixando
 def Loss(labels, phi, weights):
@@ -33,7 +38,6 @@ def Loss(labels, phi, weights):
         loss += error
 
     return loss
-
 
 #calcula o vetor gradiente dos pesos;
 #rf = rigorosidade da regularização
@@ -54,10 +58,9 @@ def Gradient_Weights(labels, phi, weights, rf):
     gradient = 2 * gradient 
 
     #regularização
-    gradient = gradient + (rf * weights)
+    gradient[1:] = gradient[1:] + 2 * rf * weights[1:]
 
     return gradient    
-
 
 #como o objetivo não é trabalhar com uma quantidade gigantesca de
 #dados, não é necessário implementar a versão estocástica, bastando
@@ -70,12 +73,6 @@ def Gradient_Descent(labels, phi, n1, rf, trials, t_size):
         gradient_w = Gradient_Weights(labels, phi, weights, rf)
         weights -= n1 * gradient_w
         losses[i] = Loss(labels, phi, weights)
-        #evitar processamento desnecessário;
-        if (i > 0):
-            if ((losses[i-1] - losses[i]) < 1e-5):
-                losses = losses[:i+1]
-                trials = i + 1
-                break
-
+        
     return weights, losses, trials
 

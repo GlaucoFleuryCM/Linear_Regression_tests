@@ -1,24 +1,25 @@
-Projeto de Implementação de Regressão linear
-========================================================
+---
+title:  Projeto de Implementação de Regressão linear
+---
+
  Implementação de um modelo de regressão linear que busca
  um vetor paramétrico (via Maximum Likelihood Estimation)
  que se adeque à previsão de dados futuros, para um data set
  providenciado pelo usuário.
 
+# Como usar e o que esperar
 
-Como usar e o que esperar
----------------------------------
  O programa requer a instalação de algumas livrarias*:
- -matplotlib
- -numpy
- -pandas
+ - matplotlib
+ - numpy
+ - pandas
  *as demais livrarias (os + glob) já são por padrão instaladas
  junto do python em sua máquina
  
  Após clonar o repositório em seu computador local, acesse 
  a pasta contendo-o e digite em seu terminal:
 
- $ python3 main.py
+    $ python3 main.py
  
  O programa irá perguntar algumas coisas, as quais são bem
  diretas para entender. Será buscada em sua pasta de Downloads
@@ -31,8 +32,8 @@ Como usar e o que esperar
  data set para comparação.
 
 
-Parâmetros requisitados
---------------------------
+# Parâmetros requisitados
+
  -'Username' = o nome de usuário em sua máquina
  -'csv escolhido' + dimensões = digite os números desejados
  -'fator de regularização' = o quanto você quer penalizar O
@@ -50,7 +51,7 @@ Parâmetros requisitados
  para achar os parâmetros que melhor se adequam ao
  contexto.
 
-Teoria e Matemática da Implementação
---------------------------------------
+# Teoria e Matemática da Implementação
+
  Discutidos no pdf presente em 'relatorio_teste'
 

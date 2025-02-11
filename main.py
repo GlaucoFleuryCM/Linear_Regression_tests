@@ -1,7 +1,5 @@
 from src.lib import control_line, gradients, plotting, feature_map
 import numpy as np
-import time 
-import pdb
 
 #recebendo especificações da manipulação;
 image, dominium, data = control_line.Interface1()
@@ -35,12 +33,12 @@ weights, losses, trials = gradients.Gradient_Descent(image, phi, lf, reg, trials
 
 #plotando tudo  
 if (tamanho == 2):
-    plotting.Graph_3D(degree, weights, image[0:30], dominium1[0:30], dominium2[0:30],
+    plotting.Graph_3D(degree, weights, image, dominium1, dominium2,
                        image_name, dominium_name[0], dominium_name[1])
     plotting.Graph_Loss(losses, trials)
 else:
-    plotting.Graph_2D(degree, weights, dominium_f[0:30],
-                       image[0:30], dominium_name, image_name)
+    plotting.Graph_2D(degree, weights, dominium_f,
+                       image, dominium_name, image_name)
     plotting.Graph_Loss(losses, trials)   
 
 

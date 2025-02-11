@@ -41,8 +41,8 @@ if (flag == False):
 #Não é necessário o 'if __name__ == "__main__"'; eu quero executar TUDO
 #do programa que eu estou importanto mesmo;
 chdir(f'/home/{user}/BayesProject')
-inputs = [str(user), '1', '1', '3',
-           '6', '0', '0.000001', '1', '100']
+inputs = [str(user), '2', '1', '1',
+           '2', '0', '0.005', '10', '100000']
 #'fingindo' que é um comando que eu dei no terminal;
 inputs = "\n".join(inputs) + "\n"
 subprocess.run(

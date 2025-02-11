@@ -2,17 +2,27 @@ from math import comb
 #propósito: produzir combinações de polinômios X1, X2, .. Xn para poder 
 #efetuar o feature mapping e utilizar polynomial regression pra curve fitting;
 
-#utiizar várias vezes para fazer a expansão polinomial;
-#teria como fazer com árvores? Seria melhor?
-
 #essa função serve para contornar as chatices do numpy;
-def Length (input):
+def Length(input):
     try:
         num = len(input)
         return num
     except:
         return 1
     
+def Max(array):
+    max = array[0]
+    for i in range(Length(array)):
+        if (array[i] > max):
+            max = array[i]
+    return max
+
+def Min(array):
+    min = array[0]
+    for i in range(Length(array)):
+        if (array[i] < min):
+            min = array[i]
+    return min
 
 def Combination(polynomials, number, combinations, end, start, size_comb, i, n):
     #casos bases da recursão
@@ -36,7 +46,6 @@ def Combination(polynomials, number, combinations, end, start, size_comb, i, n):
     #mover os números +1;
     Combination(polynomials, save, combinations, end, start + 1, size_comb, i, n)
 
-
 #para calcular o tamanho do vetor de fmapping;
 def Combinations_Replacement (n, r):
     i = 1
@@ -47,7 +56,6 @@ def Combinations_Replacement (n, r):
         i += 1
 
     return result
-
 
 #assumo que a ordem dos polinômios não importe (não vejo o por que);
 #para uma sequencia [X1 .. XN] de N polinomios, retorna uma lista de 

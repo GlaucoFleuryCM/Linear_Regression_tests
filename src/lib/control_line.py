@@ -55,5 +55,6 @@ def Interface2():
     lf = float(input("learning factor dos pesos: "))
     degree = float(input("grau da expansão polinomial: "))
     trials = int(input("n° de vezes que você quer treinar o modelo: "))
+    print()
 
     return(reg, lf, degree, trials)

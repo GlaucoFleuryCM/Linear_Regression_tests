@@ -1,7 +1,7 @@
 import matplotlib as mpl
 import matplotlib.pyplot as mlp #my little ponny kkk;
 from mpl_toolkits import mplot3d #precisa, pro eixo Z
-from src.lib.feature_map import Polynomial_Regression, Combinations_Replacement
+from src.lib.feature_map import Polynomial_Regression, Combinations_Replacement, Max, Min
 import numpy as np
 import pdb
 
@@ -17,7 +17,6 @@ def Function_3D(exp, weights, phi_degree, X, Y):
         Z += weights[i] * pow(X, exp_X) * pow(Y, exp_Y)
     
     return Z    
-
 
 #plotta o gráfico 3D do modelo;
 def Graph_3D(phi_degree, weights, z_points, x_points, y_points, z_name, x_name, y_name): 
@@ -46,7 +45,6 @@ def Graph_3D(phi_degree, weights, z_points, x_points, y_points, z_name, x_name, 
     mlp.legend()
     mlp.show()
 
-
 #cálculo de f(X) = Y
 def Function_2D(weights, phi_degree, X):
     Y = 0
@@ -57,12 +55,24 @@ def Function_2D(weights, phi_degree, X):
     
     return Y
 
-
 #gráfico 2D;
 def Graph_2D(phi_degree, weights, x_points, y_points, x_name, y_name):
 
-    X = np.linspace(0,1,100)
+    max_x = Max(x_points)
+    max_y = Max(y_points)
 
+    min_x = Min(x_points)
+    min_y = Min(y_points)
+
+    num_points = (max_x - min_x) * 2
+
+    while(num_points < 100):
+        num_points = num_points * 10
+
+    num_points = 2*int(num_points)
+
+    X = np.linspace((1/2)*min_x, (3/2)*max_x, num_points)
+    
     Y = Function_2D(weights, phi_degree, X)
 
     #pra que mexer em fig size?
@@ -77,12 +87,11 @@ def Graph_2D(phi_degree, weights, x_points, y_points, x_name, y_name):
     ax.set_ylabel(y_name)
 
     #ajustar pra cada tipo de dado que tu quiser plotar
-    ax.set_xlim(0, 10) 
-    ax.set_ylim(0, 10)
+    ax.set_xlim((1/2)*min_x, (3/2)*max_x) 
+    ax.set_ylim((1/2)*min_y, (3/2)*max_y)
 
     ax.legend()
     mlp.show()
-
 
 #gráfico da função Loss; muito útil!
 def Graph_Loss(losses, trials):

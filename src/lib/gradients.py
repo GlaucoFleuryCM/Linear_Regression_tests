@@ -3,18 +3,6 @@ from src.lib.feature_map import Polynomial_Regression as PR
 from src.lib.feature_map import Combinations_Replacement as CR
 from src.lib.feature_map import Length, Min, Max
 
-def Data_Norm(data):
-    max = Max(data)
-    min = Min(data)
-
-    data = (data - min) / (max - min)
-
-    return data
-
-def Data_Std(data):
-    data[:, 1:] = (data[:, 1:] - np.mean(data[:, 1:], axis = 0)) / np.std(data[:, 1:], axis = 0)
-    return data
-
 #cria a design matrix, sendo ela nossa nova matriz de treino
 def Design_Matrix(input_matrix, phi_degree):
     d_y = Length(input_matrix) #range of examples
@@ -68,14 +56,14 @@ def Gradient_Weights(labels, phi, weights, rf):
 #como o objetivo não é trabalhar com uma quantidade gigantesca de
 #dados, não é necessário implementar a versão estocástica, bastando
 #a vanilla; 
-def Gradient_Descent(labels, phi, n1, rf, trials, t_size):
-    losses = np.zeros((trials))
+def Gradient_Descent(labels, phi, n1, rf, epochs, t_size):
+    losses = np.zeros((epochs))
     weights = np.random.rand(t_size)
 
-    for i in range(trials):
+    for i in range(epochs):
         gradient_w = Gradient_Weights(labels, phi, weights, rf)
         weights -= n1 * gradient_w
         losses[i] = Loss(labels, phi, weights)
         
-    return weights, losses, trials
+    return weights, losses
 

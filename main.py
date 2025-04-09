@@ -1,9 +1,9 @@
-from src.lib import control_line, gradients, plotting, feature_map
+from src.lib import control_line, gradients, plotting, feature_map 
 import numpy as np
 
 #recebendo especificações da manipulação;
 image, dominium, data = control_line.Interface1()
-reg, lf, degree, trials = control_line.Interface2()
+reg, lf, degree, epochs = control_line.Interface2()
 
 #ajustando dados para serem utilizados pelo computador
 #(transformando tudo em número e lista)
@@ -25,21 +25,22 @@ else:
 
 #inicializando a design matrix;
 phi = gradients.Design_Matrix(dominium_f, degree)
+
 #calculando tamanho do vetor de pesos;
 w_size = feature_map.Combinations_Replacement(tamanho, degree) + 1
 
 #treinando o modelo;
-weights, losses, trials = gradients.Gradient_Descent(image, phi, lf, reg, trials, w_size)
+weights, losses = gradients.Gradient_Descent(image, phi, lf, reg, epochs, w_size)
 
 #plotando tudo  
 if (tamanho == 2):
     plotting.Graph_3D(degree, weights, image, dominium1, dominium2,
                        image_name, dominium_name[0], dominium_name[1])
-    plotting.Graph_Loss(losses, trials)
+    plotting.Graph_Loss(losses, epochs)
 else:
     plotting.Graph_2D(degree, weights, dominium_f,
                        image, dominium_name, image_name)
-    plotting.Graph_Loss(losses, trials)   
+    plotting.Graph_Loss(losses, epochs)   
 
 
 

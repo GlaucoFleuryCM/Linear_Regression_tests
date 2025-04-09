@@ -3,6 +3,7 @@ import matplotlib.pyplot as mlp #my little ponny kkk;
 from mpl_toolkits import mplot3d #precisa, pro eixo Z
 from src.lib.feature_map import Polynomial_Regression, Combinations_Replacement, Max, Min
 import numpy as np
+import pdb
 
 #pra gráficos 3D, calcula o valor de f(x,y), considerando se tratar de
 #uma expansão polinomial;
